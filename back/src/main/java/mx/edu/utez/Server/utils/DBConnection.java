@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-/*@Configuration
+@Configuration
 public class DBConnection {
     @Value("${db.host}")
     private String host;
@@ -35,4 +35,3 @@ public class DBConnection {
         return source;
     }
 }
-*/
