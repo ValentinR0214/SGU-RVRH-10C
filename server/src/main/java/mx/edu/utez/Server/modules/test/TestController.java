@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.HashMap;
 
 @Controller
-@RequestMapping("/sgu/test")
+@RequestMapping("/sgu-api/test")
 @CrossOrigin(origins = "*")
 public class TestController {
     @GetMapping("")
