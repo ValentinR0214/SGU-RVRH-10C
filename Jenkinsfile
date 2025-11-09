@@ -11,9 +11,9 @@ pipeline {
         stage('Parando los servicios') {
             steps{
                 // Usamos 'bat' y la sintaxis '|| exit /b 0' para ignorar errores
-                // Se actualiza el nombre del proyecto a ${PROJECT_NAME}
+                // Se actualiza el nombre del proyecto a %PROJECT_NAME%
                 bat ''' 
-                    docker compose -p ${PROJECT_NAME} down || exit /b 0
+                    docker compose -p %PROJECT_NAME% down || exit /b 0
                 '''
             }
         }
@@ -22,9 +22,9 @@ pipeline {
         stage('Borrando imagenes antiguas') {
             steps{
                 // Usamos el bucle 'for /f' de Batch y la lógica de 'errorlevel'
-                // Se actualiza el filtro de label al nuevo ${PROJECT_NAME}
+                // Se actualiza el filtro de label al nuevo %PROJECT_NAME%
                 bat '''
-                    for /f "tokens=*" %%i in ('docker images --filter "label=com.docker.compose.project=${PROJECT_NAME}" -q') do (
+                    for /f "tokens=*" %%i in ('docker images --filter "label=com.docker.compose.project=%PROJECT_NAME%" -q') do (
                         docker rmi -f %%i
                     )
                     if errorlevel 1 (
@@ -47,9 +47,9 @@ pipeline {
         stage('Levantando y desplegando el proyecto') {
             steps{
                 // Usamos 'bat' para el comando final
-                // Se actualiza el comando up para usar el ${PROJECT_NAME}
+                // Se actualiza el comando up para usar el %PROJECT_NAME%
                 bat '''
-                    docker compose -p ${PROJECT_NAME} up --build -d
+                    docker compose -p %PROJECT_NAME% up --build -d
                 '''
             }
         }
