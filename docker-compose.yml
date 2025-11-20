@@ -2,57 +2,58 @@
 services:
   database:
     image: mysql:8
-    container_name: sgu-database
+    container_name: sgu-database #nombre del contenedor de la base de datos
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: sgu-demo
+      MYSQL_DATABASE: sgu-demo #nombre de la base de datos
     ports:
       - "3307:3306"
     networks:
-      - sgu-net
+      - sgu-net #nombre de la red (network)
     volumes:
-      - sgu-volume:/var/lib/mysql
+      - sgu-volume:/var/lib/mysql #volumen para persistencia de datos
 
   frontend:
-    image: client:v1.0-sgu
+    image: client:v1.0-sgu #nombre de la imagen del front
     build:
-      context: ./client
+      context: ./client #nombre de la carpeta del front
       args:
         API_HOST: localhost
         API_PORT: 8081
-        API_BASE: /sgu-api/users
-        API_PROTOCOL: https
-    container_name: sgu-frontend
+        API_BASE: /sgu-api/users #ruta base de la api (url de la api)
+        API_PROTOCOL: https #protocolo de la api (http o https)
+    container_name: sgu-frontend #nombre del contenedor del front
     ports:
-      - "3000:443"
+      - "3000:443" # 80 para http y 443 para https
     networks:
-      - sgu-net
+      - sgu-net #nombre de la red (network)
     volumes:
-      - certbot-conf:/etc/letsencrypt:ro
+      - certbot-conf:/etc/letsencrypt:ro #volumen para certificados ssl (no se ocupa en http)
     depends_on:
       - database
 
   backend:
-    image: server:v1.0-sgu
+    image: server:v1.0-sgu  #nombre de la imagen del back
     build:
-      context: ./server
-    container_name: sgu-backend
+      context: ./server #nombre de la carpeta del back
+    container_name: sgu-backend #nombre del contenedor del back
     environment:
       SERVER_PORT: 8080
       DB_HOST: database
       DB_PORT: 3306
-      DB_NAME: sgu-demo
+      DB_NAME: sgu-demo #nombre de la base de datos
       DB_USER: root
       DB_PASSWORD: root
+      # SSL es para https, si no se usa https poner en false o eliminar estas lineas
       SERVER_SSL_ENABLE: true
       SERVER_SSL_KEYSTORE: /etc/letsencrypt/live/localhost/keystore.p12
       SERVER_SSL_KEYSTORE_PASS: changeit
     ports:
       - "8081:8080"
     networks:
-      - sgu-net
+      - sgu-net #nombre de la red (network)
     volumes:
-      - certbot-conf:/etc/letsencrypt:ro
+      - certbot-conf:/etc/letsencrypt:ro #volumen para certificados ssl (no se ocupa en http)
     depends_on:
       - frontend
 
@@ -60,15 +61,15 @@ services:
 #Para crear la red es 
 #docker network create --driver bridge sgu-net
 networks:
-  sgu-net:
+  sgu-net: #la network se llama sgu-net
     external: true
 
 #Aqui se configuran los volumenes que ocupan los contenedores
 #docker volume create sgu-volume
 volumes:
-  sgu-volume:
+  sgu-volume: #nombre del volumen
     external: true
-  certbot-conf:
+  certbot-conf: #volumen para certificados ssl, si no se usa https se puede eliminar
     external: true
 
 #Levantar los contenedores
@@ -88,3 +89,9 @@ volumes:
 
 #Bomba pa las networks
 #docker network prune
+
+
+
+#Reconstruir imagenes sin cache
+#docker compose build -no-cache
+#docker compose up -d
