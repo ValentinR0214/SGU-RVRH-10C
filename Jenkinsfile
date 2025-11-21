@@ -67,3 +67,31 @@ pipeline {
         }
     }
 }
+
+
+// Para jenkis 
+// 1. entrar a jenkis y en nueva tarea 
+// 2. poner nombre y seleccionar pipeline
+// 3. en configuracion del pipeline solo seleccionar github hook trigger
+// 4. en Definition seleccionar pipeline script from scm
+// 5. en SCM seleccionar git
+// 6. en Repository URL poner la url del repositorio
+// 7. en Credentials seleccionar las credenciales creadas
+// 8. en Branches to build poner main o master
+// 9. en script path poner Jenkinsfile
+// 10. guardar
+
+//constuir proyecto en jenkins
+// dentro del proyecto seleccionar "Construir ahora"
+// aparece la construccion, podemos seleccionarla
+// entrar a Pipeline Overview para ver el avance de la construccion
+
+
+
+//credenciales
+// si no hay credenciales seleccionar add y jenkins
+// todo lo demas dejar por defecto
+// en username poner el usuario de github: ValentinR0214
+// en password poner el token de github: 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
+// en ID le ponemos como se van a llamar las credenciales ejemplo: ValentinGitHub
+// le damos en add y ya se agregan las credenciales
