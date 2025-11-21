@@ -91,7 +91,7 @@ pipeline {
 //credenciales
 // si no hay credenciales seleccionar add y jenkins
 // todo lo demas dejar por defecto
-// en username poner el usuario de github: ValentinR0214
-// en password poner el token de github: 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
+// en username poner el usuario GH: blogNotas
+// en password poner el tokeerrn de GH: blogNotas
 // en ID le ponemos como se van a llamar las credenciales ejemplo: ValentinGitHub
 // le damos en add y ya se agregan las credenciales
